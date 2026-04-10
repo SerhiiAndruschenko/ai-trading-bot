@@ -1,0 +1,7 @@
+python-binance
+google-genai
+pandas
+ta
+python-dotenv
+python-telegram-bot>=20.0
+aiohttp
