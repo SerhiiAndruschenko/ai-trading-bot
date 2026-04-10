@@ -68,8 +68,14 @@ _PROMPT_TPL = (
     "Funding rate: {funding_rate:.4f}%\n\n"
     "Last 5 candles:\n"
     "{last_5_candles}\n\n"
-    "Return JSON: action(LONG/SHORT/WAIT), confidence(0-1), "
-    "take_profit_pct(0.005-0.05), stop_loss_pct(0.002-0.03), reason(str)"
+    "Return JSON only (no markdown):\n"
+    "{{\n"
+    "  \"action\": \"LONG\" or \"SHORT\" or \"WAIT\",\n"
+    "  \"confidence\": 0.0-1.0,\n"
+    "  \"take_profit_pct\": 0.005-0.05,\n"
+    "  \"stop_loss_pct\": 0.002-0.03,\n"
+    "  \"reason\": \"explanation max 100 chars\"\n"
+    "}}"
 )
 
 
@@ -78,6 +84,28 @@ def _strip_markdown(text):
     text = re.sub(r"^```(?:json)?\s*", "", text, flags=re.MULTILINE)
     text = re.sub(r"\s*```$", "", text, flags=re.MULTILINE)
     return text.strip()
+
+
+def _safe_text(resp):
+    """Extract text from Gemini response; return None if blocked or empty."""
+    # Fast path
+    try:
+        text = resp.text
+        if text is not None:
+            return text
+    except Exception:
+        pass
+    # Candidates fallback
+    try:
+        cands = resp.candidates
+        if cands and cands[0].content and cands[0].content.parts:
+            return cands[0].content.parts[0].text
+        if cands:
+            reason = getattr(cands[0], "finish_reason", "unknown")
+            log.warning("Gemini response blocked, finish_reason=%s", reason)
+    except Exception:
+        pass
+    return None
 
 
 def _parse_response(raw):
@@ -144,7 +172,10 @@ def analyze(symbol, market_data, balance):
                 max_output_tokens=256,
             ),
         )
-        raw_text = response.text
+        raw_text = _safe_text(response)
+        if raw_text is None:
+            log.warning("[%s] Gemini returned empty/blocked response -- WAIT", symbol)
+            return _DEFAULT_WAIT
         log.debug("[%s] Gemini response: %s", symbol, raw_text)
     except Exception as e:
         log.error("[%s] Gemini API error: %s", symbol, e)
@@ -160,6 +191,16 @@ def analyze(symbol, market_data, balance):
     return decision
 
 
+def _list_available_models():
+    """Log available Gemini models to help debug 404 errors."""
+    try:
+        names = [m.name for m in _get_client().models.list()
+                 if "gemini" in m.name.lower()]
+        log.info("Available Gemini models: %s", ", ".join(names[:20]))
+    except Exception as e:
+        log.debug("Could not list models: %s", e)
+
+
 def check_gemini_connection():
     try:
         resp = _get_client().models.generate_content(
@@ -167,8 +208,19 @@ def check_gemini_connection():
             contents="Reply with one word: OK",
             config=types.GenerateContentConfig(max_output_tokens=10),
         )
-        log.info("Gemini API: connection OK (%s)", resp.text.strip()[:20])
-        return True
+        text = _safe_text(resp)
+        if text is not None:
+            log.info("Gemini API: connection OK | model=%s | reply=%s",
+                     config.GEMINI_MODEL, text.strip()[:30])
+            return True
+        log.error(
+            "Gemini API: empty response (model=%s). "
+            "Set GEMINI_MODEL=gemini-2.0-flash in .env and retry.",
+            config.GEMINI_MODEL,
+        )
+        _list_available_models()
+        return False
     except Exception as e:
         log.error("Gemini API: FAILED - %s", e)
+        _list_available_models()
         return False
