@@ -87,22 +87,31 @@ def _strip_markdown(text):
 
 
 def _safe_text(resp):
-    """Extract text from Gemini response; return None if blocked or empty."""
-    # Fast path
-    try:
-        text = resp.text
-        if text is not None:
-            return text
-    except Exception:
-        pass
-    # Candidates fallback
+    """Extract text from Gemini response; handles MAX_TOKENS and STOP."""
+    # In google-genai SDK, resp.text raises ValueError for non-STOP finish reasons.
+    # Always go through candidates to get actual text content.
     try:
         cands = resp.candidates
-        if cands and cands[0].content and cands[0].content.parts:
-            return cands[0].content.parts[0].text
         if cands:
-            reason = getattr(cands[0], "finish_reason", "unknown")
-            log.warning("Gemini response blocked, finish_reason=%s", reason)
+            candidate = cands[0]
+            finish_reason = getattr(candidate, "finish_reason", None)
+            # Extract text from parts (works for STOP and MAX_TOKENS)
+            if candidate.content and candidate.content.parts:
+                parts_text = "".join(
+                    p.text for p in candidate.content.parts
+                    if hasattr(p, "text") and p.text
+                )
+                if parts_text:
+                    return parts_text
+            log.warning("Gemini: no text in parts, finish_reason=%s", finish_reason)
+            return None
+    except Exception:
+        pass
+    # Last resort: resp.text (may raise for non-STOP)
+    try:
+        text = resp.text
+        if text:
+            return text
     except Exception:
         pass
     return None
@@ -206,7 +215,7 @@ def check_gemini_connection():
         resp = _get_client().models.generate_content(
             model=config.GEMINI_MODEL,
             contents="Reply with one word: OK",
-            config=types.GenerateContentConfig(max_output_tokens=10),
+            config=types.GenerateContentConfig(max_output_tokens=64),
         )
         text = _safe_text(resp)
         if text is not None:
@@ -214,8 +223,7 @@ def check_gemini_connection():
                      config.GEMINI_MODEL, text.strip()[:30])
             return True
         log.error(
-            "Gemini API: empty response (model=%s). "
-            "Set GEMINI_MODEL=gemini-2.0-flash in .env and retry.",
+            "Gemini API: empty/truncated response (model=%s). Check GEMINI_MODEL in .env.",
             config.GEMINI_MODEL,
         )
         _list_available_models()

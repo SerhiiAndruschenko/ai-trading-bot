@@ -1,0 +1,204 @@
+2026-04-10 23:54:47 [INFO] ============================================================
+2026-04-10 23:54:47 [INFO]   AI Trading Bot | gemini-2.5-pro
+2026-04-10 23:54:47 [INFO]   Режим: TESTNET
+2026-04-10 23:54:47 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-10 23:54:47 [INFO] ============================================================
+2026-04-10 23:54:47 [INFO] Перевірка з'єднання з Binance...
+2026-04-10 23:54:49 [INFO] ✅ Binance API: OK
+2026-04-10 23:54:49 [INFO] Перевірка з'єднання з Gemini...
+2026-04-10 23:54:50 [ERROR] Gemini API: FAILED - 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-pro\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-pro\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.5-pro\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.5-pro\nPlease retry in 9.622091763s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-pro'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-pro'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-pro'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerDay-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-pro'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '9s'}]}}
+2026-04-10 23:54:50 [INFO] Available Gemini models: models/gemini-2.5-flash, models/gemini-2.5-pro, models/gemini-2.0-flash, models/gemini-2.0-flash-001, models/gemini-2.0-flash-lite-001, models/gemini-2.0-flash-lite, models/gemini-2.5-flash-preview-tts, models/gemini-2.5-pro-preview-tts, models/gemini-flash-latest, models/gemini-flash-lite-latest, models/gemini-pro-latest, models/gemini-2.5-flash-lite, models/gemini-2.5-flash-image, models/gemini-3-pro-preview, models/gemini-3-flash-preview, models/gemini-3.1-pro-preview, models/gemini-3.1-pro-preview-customtools, models/gemini-3.1-flash-lite-preview, models/gemini-3-pro-image-preview, models/gemini-3.1-flash-image-preview
+2026-04-10 23:54:50 [ERROR] Не вдалося підключитися до Gemini API. Завершення.
+2026-04-11 00:02:28 [INFO] ============================================================
+2026-04-11 00:02:28 [INFO]   AI Trading Bot | gemini-3.1-pro-preview
+2026-04-11 00:02:28 [INFO]   Режим: TESTNET
+2026-04-11 00:02:28 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-11 00:02:28 [INFO] ============================================================
+2026-04-11 00:02:28 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 00:02:30 [INFO] ✅ Binance API: OK
+2026-04-11 00:02:30 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 00:02:33 [WARNING] Gemini response blocked, finish_reason=FinishReason.MAX_TOKENS
+2026-04-11 00:02:33 [ERROR] Gemini API: empty response (model=gemini-3.1-pro-preview). Set GEMINI_MODEL=gemini-2.0-flash in .env and retry.
+2026-04-11 00:02:33 [INFO] Available Gemini models: models/gemini-2.5-flash, models/gemini-2.5-pro, models/gemini-2.0-flash, models/gemini-2.0-flash-001, models/gemini-2.0-flash-lite-001, models/gemini-2.0-flash-lite, models/gemini-2.5-flash-preview-tts, models/gemini-2.5-pro-preview-tts, models/gemini-flash-latest, models/gemini-flash-lite-latest, models/gemini-pro-latest, models/gemini-2.5-flash-lite, models/gemini-2.5-flash-image, models/gemini-3-pro-preview, models/gemini-3-flash-preview, models/gemini-3.1-pro-preview, models/gemini-3.1-pro-preview-customtools, models/gemini-3.1-flash-lite-preview, models/gemini-3-pro-image-preview, models/gemini-3.1-flash-image-preview
+2026-04-11 00:02:33 [ERROR] Не вдалося підключитися до Gemini API. Завершення.
+2026-04-11 00:03:29 [INFO] ============================================================
+2026-04-11 00:03:29 [INFO]   AI Trading Bot | gemini-3.1-pro-preview
+2026-04-11 00:03:29 [INFO]   Режим: TESTNET
+2026-04-11 00:03:29 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-11 00:03:29 [INFO] ============================================================
+2026-04-11 00:03:29 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 00:03:30 [INFO] ✅ Binance API: OK
+2026-04-11 00:03:30 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 00:03:33 [WARNING] Gemini response blocked, finish_reason=FinishReason.MAX_TOKENS
+2026-04-11 00:03:33 [ERROR] Gemini API: empty response (model=gemini-3.1-pro-preview). 
+2026-04-11 00:03:33 [INFO] Available Gemini models: models/gemini-2.5-flash, models/gemini-2.5-pro, models/gemini-2.0-flash, models/gemini-2.0-flash-001, models/gemini-2.0-flash-lite-001, models/gemini-2.0-flash-lite, models/gemini-2.5-flash-preview-tts, models/gemini-2.5-pro-preview-tts, models/gemini-flash-latest, models/gemini-flash-lite-latest, models/gemini-pro-latest, models/gemini-2.5-flash-lite, models/gemini-2.5-flash-image, models/gemini-3-pro-preview, models/gemini-3-flash-preview, models/gemini-3.1-pro-preview, models/gemini-3.1-pro-preview-customtools, models/gemini-3.1-flash-lite-preview, models/gemini-3-pro-image-preview, models/gemini-3.1-flash-image-preview
+2026-04-11 00:03:33 [ERROR] Не вдалося підключитися до Gemini API. Завершення.
+2026-04-11 00:05:21 [INFO] ============================================================
+2026-04-11 00:05:21 [INFO]   AI Trading Bot | gemini-3.1-pro-preview
+2026-04-11 00:05:21 [INFO]   Режим: TESTNET
+2026-04-11 00:05:21 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-11 00:05:21 [INFO] ============================================================
+2026-04-11 00:05:21 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 00:05:23 [INFO] ✅ Binance API: OK
+2026-04-11 00:05:23 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 00:05:27 [INFO] Gemini API: connection OK | model=gemini-3.1-pro-preview | reply=OK
+2026-04-11 00:05:27 [INFO] ✅ Gemini API: OK
+2026-04-11 00:05:27 [INFO] 💰 Баланс: доступно=4901.57 USDT | гаманець=4974.56 USDT
+2026-04-11 00:05:27 [INFO] 📊 Ліміт торгівлі: 500.0 USDT
+2026-04-11 00:05:27 [INFO] ⚙️ Плече: x5 | Ризик: 2% | Мін. впевненість: 70%
+2026-04-11 00:05:27 [INFO] RiskManager: новий день 2026-04-10, скидаю денний P&L
+2026-04-11 00:05:27 [INFO] RiskManager: новий місяць 2026-04, скидаю місячний P&L
+2026-04-11 00:05:27 [INFO] Синхронізація відкритих позицій...
+2026-04-11 00:05:27 [INFO] [ETHUSDT] Додано з біржі: LONG qty=0.045 entry=2243.7622
+2026-04-11 00:05:27 [INFO] [BNBUSDT] Додано з біржі: LONG qty=0.16 entry=606.1700
+2026-04-11 00:05:27 [INFO] [LTCUSDT] Додано з біржі: LONG qty=1.811 entry=55.2000
+2026-04-11 00:05:27 [INFO] reconcile: відкритих угод у реєстрі = 3
+2026-04-11 00:05:28 [INFO] Telegram бот запущено (polling)
+2026-04-11 00:05:29 [INFO] ============================================================
+2026-04-11 00:05:29 [INFO] Бот запущено. Починаємо головний цикл...
+2026-04-11 00:05:29 [INFO] Інтервал сканування: 60с
+2026-04-11 00:05:29 [DEBUG] [ETHUSDT] LONG | ціна=2251.4300 | P&L(lever)=+1.71% | TP=2254.9810 SL=2239.2747
+2026-04-11 00:05:29 [DEBUG] [BNBUSDT] LONG | ціна=610.0700 | P&L(lever)=+3.22% | TP=609.2008 SL=604.9577
+2026-04-11 00:05:29 [INFO] [BNBUSDT] TP досягнуто (610.0700 >= 609.2008)
+2026-04-11 00:05:30 [INFO] Ордер SELL 0.16 BNBUSDT: orderId=1335431078
+2026-04-11 00:05:30 [INFO] [BNBUSDT] ЗАКРИТО LONG | entry=606.1700 exit=0.0000 P&L=-97.0842 USDT (-100.00%) | TP
+2026-04-11 00:05:30 [INFO] RiskManager: P&L записано -97.0842 USDT | день=-97.0842 місяць=-97.0842
+2026-04-11 00:05:31 [DEBUG] [LTCUSDT] LONG | ціна=55.2900 | P&L(lever)=+0.82% | TP=55.4760 SL=55.0896
+2026-04-11 00:06:04 [INFO] Отримано сигнал зупинки...
+2026-04-11 00:06:05 [INFO] Ордер SELL 0.045 ETHUSDT: orderId=8636593651
+2026-04-11 00:06:05 [INFO] [ETHUSDT] ЗАКРИТО LONG | entry=2243.7622 exit=0.0000 P&L=-101.0703 USDT (-100.00%) | завершення роботи
+2026-04-11 00:06:05 [INFO] RiskManager: P&L записано -101.0703 USDT | день=-198.1545 місяць=-198.1545
+2026-04-11 00:06:06 [INFO] Ордер SELL 1.811 LTCUSDT: orderId=1006795714
+2026-04-11 00:06:06 [INFO] [LTCUSDT] ЗАКРИТО LONG | entry=55.2000 exit=0.0000 P&L=-100.0672 USDT (-100.00%) | завершення роботи
+2026-04-11 00:06:06 [INFO] RiskManager: P&L записано -100.0672 USDT | день=-298.2217 місяць=-298.2217
+2026-04-11 00:06:08 [INFO] Бот зупинено.
+2026-04-11 00:07:29 [DEBUG] RiskManager: стан завантажено з ai_state.json
+2026-04-11 00:07:29 [INFO] ============================================================
+2026-04-11 00:07:29 [INFO]   AI Trading Bot | gemini-3.1-pro-preview
+2026-04-11 00:07:29 [INFO]   Режим: TESTNET
+2026-04-11 00:07:29 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-11 00:07:29 [INFO] ============================================================
+2026-04-11 00:07:29 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 00:07:31 [INFO] ✅ Binance API: OK
+2026-04-11 00:07:31 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 00:07:35 [WARNING] Gemini: no text in parts, finish_reason=FinishReason.MAX_TOKENS
+2026-04-11 00:07:35 [ERROR] Gemini API: empty/truncated response (model=gemini-3.1-pro-preview). Check GEMINI_MODEL in .env.
+2026-04-11 00:07:35 [INFO] Available Gemini models: models/gemini-2.5-flash, models/gemini-2.5-pro, models/gemini-2.0-flash, models/gemini-2.0-flash-001, models/gemini-2.0-flash-lite-001, models/gemini-2.0-flash-lite, models/gemini-2.5-flash-preview-tts, models/gemini-2.5-pro-preview-tts, models/gemini-flash-latest, models/gemini-flash-lite-latest, models/gemini-pro-latest, models/gemini-2.5-flash-lite, models/gemini-2.5-flash-image, models/gemini-3-pro-preview, models/gemini-3-flash-preview, models/gemini-3.1-pro-preview, models/gemini-3.1-pro-preview-customtools, models/gemini-3.1-flash-lite-preview, models/gemini-3-pro-image-preview, models/gemini-3.1-flash-image-preview
+2026-04-11 00:07:35 [ERROR] Не вдалося підключитися до Gemini API. Завершення.
+2026-04-11 00:08:05 [DEBUG] RiskManager: стан завантажено з ai_state.json
+2026-04-11 00:08:06 [INFO] ============================================================
+2026-04-11 00:08:06 [INFO]   AI Trading Bot | gemini-3.1-pro-preview
+2026-04-11 00:08:06 [INFO]   Режим: TESTNET
+2026-04-11 00:08:06 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-11 00:08:06 [INFO] ============================================================
+2026-04-11 00:08:06 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 00:08:07 [INFO] ✅ Binance API: OK
+2026-04-11 00:08:07 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 00:08:10 [INFO] Gemini API: connection OK | model=gemini-3.1-pro-preview | reply=OK
+2026-04-11 00:08:10 [INFO] ✅ Gemini API: OK
+2026-04-11 00:08:11 [INFO] 💰 Баланс: доступно=4975.55 USDT | гаманець=4975.55 USDT
+2026-04-11 00:08:11 [INFO] 📊 Ліміт торгівлі: 500.0 USDT
+2026-04-11 00:08:11 [INFO] ⚙️ Плече: x5 | Ризик: 2% | Мін. впевненість: 70%
+2026-04-11 00:08:11 [INFO] Синхронізація відкритих позицій...
+2026-04-11 00:08:11 [INFO] reconcile: відкритих угод у реєстрі = 0
+2026-04-11 00:08:12 [INFO] Telegram бот запущено (polling)
+2026-04-11 00:08:17 [WARNING] Telegram надсилання помилка: Timed out
+2026-04-11 00:08:17 [INFO] ============================================================
+2026-04-11 00:08:17 [INFO] Бот запущено. Починаємо головний цикл...
+2026-04-11 00:08:17 [INFO] Інтервал сканування: 60с
+2026-04-11 00:08:18 [DEBUG] [BTCUSDT] Data collected: price=73183.5000 EMA21=72972.4603 EMA50=72606.7920 RSI=60.0 vol_ratio=0.53x funding=-0.0091%
+2026-04-11 00:08:24 [DEBUG] [BTCUSDT] Gemini response: {
+  "action":
+2026-04-11 00:08:24 [ERROR] AI agent parse error: Expecting value: line 2 column 12 (char 13) | raw={
+  "action":
+2026-04-11 00:08:24 [INFO] [BTCUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:08:24 [INFO] [BTCUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:08:25 [DEBUG] [ETHUSDT] Data collected: price=2248.3400 EMA21=2243.9584 EMA50=2229.9767 RSI=56.3 vol_ratio=0.54x funding=-0.0105%
+2026-04-11 00:08:28 [DEBUG] [ETHUSDT] Gemini response: {
+  "action": "WAIT",
+
+2026-04-11 00:08:28 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "WAIT",
+
+2026-04-11 00:08:28 [INFO] [ETHUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:08:28 [INFO] [ETHUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:08:29 [DEBUG] [SOLUSDT] Data collected: price=85.0600 EMA21=84.9668 EMA50=84.4430 RSI=54.7 vol_ratio=1.15x funding=0.0029%
+2026-04-11 00:08:33 [DEBUG] [SOLUSDT] Gemini response: {
+  "action": "LONG",
+  
+2026-04-11 00:08:33 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "LONG",
+  
+2026-04-11 00:08:33 [INFO] [SOLUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:08:33 [INFO] [SOLUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:08:58 [INFO] Отримано сигнал зупинки...
+2026-04-11 00:08:59 [INFO] Отримано сигнал зупинки...
+2026-04-11 00:08:59 [INFO] Бот зупинено.
+2026-04-11 00:09:04 [DEBUG] RiskManager: стан завантажено з ai_state.json
+2026-04-11 00:09:05 [INFO] ============================================================
+2026-04-11 00:09:05 [INFO]   AI Trading Bot | gemini-3.1-pro-preview
+2026-04-11 00:09:05 [INFO]   Режим: TESTNET
+2026-04-11 00:09:05 [INFO]   Символи: BTCUSDT, ETHUSDT, SOLUSDT
+2026-04-11 00:09:05 [INFO] ============================================================
+2026-04-11 00:09:05 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 00:09:06 [INFO] ✅ Binance API: OK
+2026-04-11 00:09:06 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 00:09:10 [INFO] Gemini API: connection OK | model=gemini-3.1-pro-preview | reply=OK
+2026-04-11 00:09:10 [INFO] ✅ Gemini API: OK
+2026-04-11 00:09:10 [INFO] 💰 Баланс: доступно=4975.55 USDT | гаманець=4975.55 USDT
+2026-04-11 00:09:10 [INFO] 📊 Ліміт торгівлі: 500.0 USDT
+2026-04-11 00:09:10 [INFO] ⚙️ Плече: x5 | Ризик: 2% | Мін. впевненість: 70%
+2026-04-11 00:09:10 [INFO] Синхронізація відкритих позицій...
+2026-04-11 00:09:11 [INFO] reconcile: відкритих угод у реєстрі = 0
+2026-04-11 00:09:12 [INFO] Telegram бот запущено (polling)
+2026-04-11 00:09:12 [INFO] ============================================================
+2026-04-11 00:09:12 [INFO] Бот запущено. Починаємо головний цикл...
+2026-04-11 00:09:12 [INFO] Інтервал сканування: 60с
+2026-04-11 00:09:13 [DEBUG] [BTCUSDT] Data collected: price=73263.0000 EMA21=72972.4603 EMA50=72606.7920 RSI=60.0 vol_ratio=0.53x funding=-0.0091%
+2026-04-11 00:09:17 [DEBUG] [BTCUSDT] Gemini response: {
+  "action": "WAIT",
+  
+2026-04-11 00:09:17 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "WAIT",
+  
+2026-04-11 00:09:17 [INFO] [BTCUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:09:17 [INFO] [BTCUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:09:18 [DEBUG] [ETHUSDT] Data collected: price=2245.3600 EMA21=2243.6757 EMA50=2229.8547 RSI=53.6 vol_ratio=0.62x funding=-0.0105%
+2026-04-11 00:09:21 [DEBUG] [ETHUSDT] Gemini response: {
+  "action": "WAIT",
+
+2026-04-11 00:09:21 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "WAIT",
+
+2026-04-11 00:09:21 [INFO] [ETHUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:09:21 [INFO] [ETHUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:09:22 [DEBUG] [SOLUSDT] Data collected: price=85.0700 EMA21=84.9659 EMA50=84.4426 RSI=54.5 vol_ratio=1.17x funding=0.0029%
+2026-04-11 00:09:25 [DEBUG] [SOLUSDT] Gemini response: {
+  "action": "
+2026-04-11 00:09:25 [ERROR] AI agent parse error: Unterminated string starting at: line 2 column 13 (char 14) | raw={
+  "action": "
+2026-04-11 00:09:25 [INFO] [SOLUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:09:25 [INFO] [SOLUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:10:27 [DEBUG] [BTCUSDT] Data collected: price=73183.5000 EMA21=72972.4603 EMA50=72606.7920 RSI=60.0 vol_ratio=0.53x funding=-0.0091%
+2026-04-11 00:10:31 [DEBUG] [BTCUSDT] Gemini response: {
+  "action": "WAIT",
+
+2026-04-11 00:10:31 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "WAIT",
+
+2026-04-11 00:10:31 [INFO] [BTCUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:10:31 [INFO] [BTCUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:10:33 [DEBUG] [ETHUSDT] Data collected: price=2248.1900 EMA21=2243.9039 EMA50=2229.9532 RSI=55.7 vol_ratio=0.72x funding=-0.0105%
+2026-04-11 00:10:36 [DEBUG] [ETHUSDT] Gemini response: {"action":"WAIT","confidence":0.65
+2026-04-11 00:10:36 [ERROR] AI agent parse error: Expecting ',' delimiter: line 1 column 35 (char 34) | raw={"action":"WAIT","confidence":0.65
+2026-04-11 00:10:36 [INFO] [ETHUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:10:36 [INFO] [ETHUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:10:38 [DEBUG] [SOLUSDT] Data collected: price=85.1100 EMA21=84.9705 EMA50=84.4446 RSI=55.5 vol_ratio=1.32x funding=0.0029%
+2026-04-11 00:10:41 [DEBUG] [SOLUSDT] Gemini response: {
+  "action": "WAIT",
+2026-04-11 00:10:41 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "WAIT",
+2026-04-11 00:10:41 [INFO] [SOLUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 00:10:41 [INFO] [SOLUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 00:11:20 [INFO] Отримано сигнал зупинки...
+2026-04-11 00:11:21 [INFO] Бот зупинено.
