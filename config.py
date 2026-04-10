@@ -13,7 +13,7 @@ API_SECRET: str = os.getenv("API_SECRET", "")
 
 # ── Gemini AI ─────────────────────────────────────────────────────────────────
 GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL: str   = "gemini-2.5-pro-preview-03-25"
+GEMINI_MODEL: str   = "gemini-3.1-pro-preview-customtools"
 
 # ── Telegram ──────────────────────────────────────────────────────────────────
 TELEGRAM_BOT_TOKEN: str = os.getenv("TELEGRAM_BOT_TOKEN", "")
