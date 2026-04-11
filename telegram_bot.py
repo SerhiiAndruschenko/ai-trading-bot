@@ -15,6 +15,8 @@ from telegram.ext import (
     Application,
     CommandHandler,
     ContextTypes,
+    MessageHandler,
+    filters,
 )
 
 import config
@@ -292,16 +294,25 @@ def start_bot() -> Optional[threading.Thread]:
         # Передаємо app у notifications для надсилання через один event loop
         notifications.set_app(app)
 
-        # Error handler for debugging
+        # Error handler
         async def _tg_error(upd, ctx):
-            log.error("TG unhandled error: %s | update=%s",
+            log.error("TG error: %s | update=%s",
                       ctx.error, str(upd)[:200] if upd else "None")
         app.add_error_handler(_tg_error)
 
+        # Debug: log ALL incoming messages to confirm bot receives them
+        async def _debug_all(upd, ctx):
+            msg = upd.message or upd.edited_message
+            if msg:
+                log.info("TG received: chat_id=%s user_id=%s text=%s",
+                         msg.chat_id, msg.from_user.id if msg.from_user else '?',
+                         repr((msg.text or '')[:60]))
+        app.add_handler(MessageHandler(filters.ALL, _debug_all), group=99)
+
         log.info("Telegram bot started (polling)")
         app.run_polling(
-            drop_pending_updates=True,
-            allowed_updates=["message", "callback_query"],
+            drop_pending_updates=False,
+            allowed_updates=Update.ALL_TYPES,
         )
 
     t = threading.Thread(target=_run, name="TelegramBot", daemon=True)

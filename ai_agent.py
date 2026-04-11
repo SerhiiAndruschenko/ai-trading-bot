@@ -188,9 +188,8 @@ def analyze(symbol, market_data, balance):
             contents=user_prompt,
             config=types.GenerateContentConfig(
                 system_instruction=_SYSTEM_PROMPT,
-                temperature=0.3,
-                max_output_tokens=1024,
-                response_mime_type="application/json",
+                temperature=0.2,
+                max_output_tokens=2048,
             ),
         )
         raw_text = _safe_text(response)
