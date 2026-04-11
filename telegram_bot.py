@@ -35,19 +35,37 @@ def is_paused() -> bool:
 # ── Авторизація ───────────────────────────────────────────────────────────────
 
 def _auth(update: Update) -> bool:
-    """Повертає True якщо повідомлення від довіреного chat_id."""
-    cid = str(update.effective_chat.id)
-    if cid != config.TELEGRAM_CHAT_ID:
-        log.warning(f"TG: невідомий chat_id={cid} — ігноруємо")
-        return False
-    return True
+    """
+    Authorize by user ID or chat ID.
+    Works in private chats, groups, and topics.
+    TELEGRAM_CHAT_ID = your personal user ID (from @userinfobot).
+    """
+    if not config.TELEGRAM_CHAT_ID:
+        return True  # no filter -- dev mode
+
+    user = update.effective_user
+    chat = update.effective_chat
+    uid  = str(user.id) if user else ""
+    cid  = str(chat.id) if chat else ""
+
+    # Accept if sender user ID OR chat ID matches config
+    if uid == config.TELEGRAM_CHAT_ID or cid == config.TELEGRAM_CHAT_ID:
+        return True
+
+    log.warning("TG: unauthorized | user_id=%s chat_id=%s | expected %s",
+                uid, cid, config.TELEGRAM_CHAT_ID)
+    return False
 
 
 async def _reply(update: Update, text: str) -> None:
     kwargs = {"text": text, "parse_mode": "HTML"}
-    if config.TELEGRAM_THREAD_ID:
+    # Reply in the same topic/thread where the command was sent
+    msg = update.message
+    if msg and getattr(msg, "is_topic_message", False) and msg.message_thread_id:
+        kwargs["message_thread_id"] = msg.message_thread_id
+    elif config.TELEGRAM_THREAD_ID:
         kwargs["message_thread_id"] = int(config.TELEGRAM_THREAD_ID)
-    await update.message.reply_text(**kwargs)
+    await msg.reply_text(**kwargs)
 
 
 # ── /g_status ─────────────────────────────────────────────────────────────────

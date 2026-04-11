@@ -202,3 +202,49 @@
 2026-04-11 00:10:41 [INFO] [SOLUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
 2026-04-11 00:11:20 [INFO] Отримано сигнал зупинки...
 2026-04-11 00:11:21 [INFO] Бот зупинено.
+2026-04-11 08:58:27 [DEBUG] RiskManager: стан завантажено з ai_state.json
+2026-04-11 08:58:27 [INFO] ============================================================
+2026-04-11 08:58:27 [INFO]   AI Trading Bot | gemini-2.5-flash
+2026-04-11 08:58:27 [INFO]   Режим: TESTNET
+2026-04-11 08:58:27 [INFO]   Символи: BNBUSDT, XRPUSDT, SOLUSDT, AVAXUSDT, LINKUSDT, LTCUSDT
+2026-04-11 08:58:27 [INFO] ============================================================
+2026-04-11 08:58:27 [INFO] Перевірка з'єднання з Binance...
+2026-04-11 08:58:29 [INFO] ✅ Binance API: OK
+2026-04-11 08:58:29 [INFO] Перевірка з'єднання з Gemini...
+2026-04-11 08:58:31 [INFO] Gemini API: connection OK | model=gemini-2.5-flash | reply=OK
+2026-04-11 08:58:31 [INFO] ✅ Gemini API: OK
+2026-04-11 08:58:31 [INFO] 💰 Баланс: доступно=4973.64 USDT | гаманець=4973.98 USDT
+2026-04-11 08:58:31 [INFO] 📊 Ліміт торгівлі: 500.0 USDT
+2026-04-11 08:58:31 [INFO] ⚙️ Плече: x5 | Ризик: 2% | Мін. впевненість: 70%
+2026-04-11 08:58:31 [INFO] RiskManager: новий день 2026-04-11, скидаю денний P&L
+2026-04-11 08:58:31 [INFO] Синхронізація відкритих позицій...
+2026-04-11 08:58:32 [INFO] [SOLUSDT] Додано з біржі: SHORT qty=0.02 entry=84.3500
+2026-04-11 08:58:32 [INFO] reconcile: відкритих угод у реєстрі = 1
+2026-04-11 08:58:33 [INFO] Telegram бот запущено (polling)
+2026-04-11 08:58:33 [INFO] ============================================================
+2026-04-11 08:58:33 [INFO] Бот запущено. Починаємо головний цикл...
+2026-04-11 08:58:33 [INFO] Інтервал сканування: 60с
+2026-04-11 08:58:33 [DEBUG] [SOLUSDT] SHORT | ціна=84.0800 | P&L(lever)=+1.60% | TP=83.9282 SL=84.5187
+2026-04-11 08:58:35 [DEBUG] [BNBUSDT] Data collected: price=606.0600 EMA21=606.4526 EMA50=606.6550 RSI=47.1 vol_ratio=1.15x funding=0.0050%
+2026-04-11 08:58:36 [DEBUG] [BNBUSDT] Gemini response: {
+  "action": "WAIT",
+  
+2026-04-11 08:58:36 [ERROR] AI agent parse error: Expecting property name enclosed in double quotes: line 2 column 20 (char 21) | raw={
+  "action": "WAIT",
+  
+2026-04-11 08:58:36 [INFO] [BNBUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 08:58:36 [INFO] [BNBUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 08:58:38 [DEBUG] [XRPUSDT] Data collected: price=1.3470 EMA21=1.3511 EMA50=1.3529 RSI=37.7 vol_ratio=0.70x funding=0.0100%
+2026-04-11 08:58:39 [DEBUG] [XRPUSDT] Gemini response: {
+  "action": "WAIT
+2026-04-11 08:58:39 [ERROR] AI agent parse error: Unterminated string starting at: line 2 column 13 (char 14) | raw={
+  "action": "WAIT
+2026-04-11 08:58:39 [INFO] [XRPUSDT] Decision: WAIT | conf=0.00 | TP=1.50% SL=0.80% | parse error
+2026-04-11 08:58:39 [INFO] [XRPUSDT] Рішення агента: WAIT | confidence=0.00 | parse error
+2026-04-11 08:58:41 [DEBUG] [SOLUSDT] Data collected: price=84.0900 EMA21=84.4382 EMA50=84.5962 RSI=31.7 vol_ratio=0.68x funding=-0.0143%
+2026-04-11 08:58:43 [INFO] Отримано сигнал зупинки...
+2026-04-11 08:58:43 [INFO] Отримано сигнал зупинки...
+2026-04-11 08:58:44 [ERROR] place_market_order SOLUSDT BUY помилка: APIError(code=-4164): Order's notional must be no smaller than 5 (unless you choose reduce only).
+2026-04-11 08:58:44 [INFO] [SOLUSDT] ЗАКРИТО SHORT | entry=84.3500 exit=84.0800 P&L=+0.0037 USDT (+0.32%) | завершення роботи
+2026-04-11 08:58:44 [INFO] RiskManager: P&L записано +0.0037 USDT | день=+0.0037 місяць=-298.2180
+2026-04-11 08:58:46 [INFO] Бот зупинено.

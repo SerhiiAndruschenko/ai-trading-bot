@@ -79,42 +79,27 @@ _PROMPT_TPL = (
 )
 
 
-def _strip_markdown(text):
+def _strip_markdown(text: str) -> str:
+    """Remove ```json ... ``` fences robustly."""
     text = text.strip()
-    text = re.sub(r"^```(?:json)?\s*", "", text, flags=re.MULTILINE)
-    text = re.sub(r"\s*```$", "", text, flags=re.MULTILINE)
+
+    # Remove opening fence: ```json or ```
+    if text.startswith("```"):
+        newline = text.find("\n")
+        if newline != -1:
+            text = text[newline + 1:]
+        else:
+            # single-line: strip backticks and language tag
+            text = text.lstrip("`").strip()
+            if text.startswith("json"):
+                text = text[4:].strip()
+
+    # Remove closing fence
+    if text.endswith("```"):
+        text = text[:-3]
+
     return text.strip()
 
-
-def _safe_text(resp):
-    """Extract text from Gemini response; handles MAX_TOKENS and STOP."""
-    # In google-genai SDK, resp.text raises ValueError for non-STOP finish reasons.
-    # Always go through candidates to get actual text content.
-    try:
-        cands = resp.candidates
-        if cands:
-            candidate = cands[0]
-            finish_reason = getattr(candidate, "finish_reason", None)
-            # Extract text from parts (works for STOP and MAX_TOKENS)
-            if candidate.content and candidate.content.parts:
-                parts_text = "".join(
-                    p.text for p in candidate.content.parts
-                    if hasattr(p, "text") and p.text
-                )
-                if parts_text:
-                    return parts_text
-            log.warning("Gemini: no text in parts, finish_reason=%s", finish_reason)
-            return None
-    except Exception:
-        pass
-    # Last resort: resp.text (may raise for non-STOP)
-    try:
-        text = resp.text
-        if text:
-            return text
-    except Exception:
-        pass
-    return None
 
 
 def _parse_response(raw):
