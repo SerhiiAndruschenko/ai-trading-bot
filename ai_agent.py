@@ -102,6 +102,32 @@ def _strip_markdown(text: str) -> str:
 
 
 
+
+def _safe_text(resp):
+    """Extract text from Gemini response; handles MAX_TOKENS and STOP."""
+    try:
+        cands = resp.candidates
+        if cands:
+            candidate = cands[0]
+            if candidate.content and candidate.content.parts:
+                parts_text = "".join(
+                    p.text for p in candidate.content.parts
+                    if hasattr(p, "text") and p.text
+                )
+                if parts_text:
+                    return parts_text
+            reason = getattr(cands[0], "finish_reason", "unknown")
+            log.warning("Gemini: no text in parts, finish_reason=%s", reason)
+    except Exception:
+        pass
+    try:
+        text = resp.text
+        if text:
+            return text
+    except Exception:
+        pass
+    return None
+
 def _parse_response(raw):
     try:
         cleaned = _strip_markdown(raw)
