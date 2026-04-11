@@ -58,19 +58,24 @@ def _auth(update: Update) -> bool:
 
 
 async def _reply(update: Update, text: str) -> None:
-    kwargs = {"text": text, "parse_mode": "HTML"}
-    # Reply in the same topic/thread where the command was sent
-    msg = update.message
-    if msg and getattr(msg, "is_topic_message", False) and msg.message_thread_id:
-        kwargs["message_thread_id"] = msg.message_thread_id
-    elif config.TELEGRAM_THREAD_ID:
-        kwargs["message_thread_id"] = int(config.TELEGRAM_THREAD_ID)
-    await msg.reply_text(**kwargs)
+    """Send reply in the same chat/thread where command was received."""
+    try:
+        await update.message.reply_text(text=text, parse_mode="HTML")
+    except Exception as e:
+        log.error("TG _reply error: %s", e)
+        # Fallback: plain text
+        try:
+            await update.message.reply_text(text=text)
+        except Exception as e2:
+            log.error("TG _reply fallback error: %s", e2)
 
 
 # ── /g_status ─────────────────────────────────────────────────────────────────
 
 async def cmd_status(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:
+    log.debug("TG: /g_status from user=%s chat=%s",
+              update.effective_user.id if update.effective_user else "?",
+              update.effective_chat.id if update.effective_chat else "?")
     if not _auth(update):
         return
 
@@ -287,8 +292,17 @@ def start_bot() -> Optional[threading.Thread]:
         # Передаємо app у notifications для надсилання через один event loop
         notifications.set_app(app)
 
-        log.info("Telegram бот запущено (polling)")
-        app.run_polling(drop_pending_updates=True)
+        # Error handler for debugging
+        async def _tg_error(upd, ctx):
+            log.error("TG unhandled error: %s | update=%s",
+                      ctx.error, str(upd)[:200] if upd else "None")
+        app.add_error_handler(_tg_error)
+
+        log.info("Telegram bot started (polling)")
+        app.run_polling(
+            drop_pending_updates=True,
+            allowed_updates=["message", "callback_query"],
+        )
 
     t = threading.Thread(target=_run, name="TelegramBot", daemon=True)
     t.start()
