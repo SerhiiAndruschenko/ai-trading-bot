@@ -275,14 +275,13 @@ def start_bot() -> Optional[threading.Thread]:
         log.info("Telegram не налаштовано — пропускаємо запуск бота")
         return None
 
-    def _run():
+    async def _build_app():
         app = (
             Application.builder()
             .token(config.TELEGRAM_BOT_TOKEN)
             .build()
         )
 
-        # Реєстрація команд
         app.add_handler(CommandHandler("g_status", cmd_status))
         app.add_handler(CommandHandler("g_today",  cmd_today))
         app.add_handler(CommandHandler("g_month",  cmd_month))
@@ -291,30 +290,58 @@ def start_bot() -> Optional[threading.Thread]:
         app.add_handler(CommandHandler("g_stop",   cmd_stop))
         app.add_handler(CommandHandler("g_info",   cmd_info))
 
-        # Передаємо app у notifications для надсилання через один event loop
-        notifications.set_app(app)
-
-        # Error handler
         async def _tg_error(upd, ctx):
             log.error("TG error: %s | update=%s",
                       ctx.error, str(upd)[:200] if upd else "None")
         app.add_error_handler(_tg_error)
 
-        # Debug: log ALL incoming messages to confirm bot receives them
         async def _debug_all(upd, ctx):
             msg = upd.message or upd.edited_message
             if msg:
                 log.info("TG received: chat_id=%s user_id=%s text=%s",
-                         msg.chat_id, msg.from_user.id if msg.from_user else '?',
-                         repr((msg.text or '')[:60]))
+                         msg.chat_id,
+                         msg.from_user.id if msg.from_user else "?",
+                         repr((msg.text or "")[:60]))
         app.add_handler(MessageHandler(filters.ALL, _debug_all), group=99)
 
-        log.info("Telegram bot started (polling)")
-        app.run_polling(
-            drop_pending_updates=False,
-            allowed_updates=Update.ALL_TYPES,
-        )
+        return app
 
+    def _run():
+        """
+        Run polling in a background thread WITHOUT signal handlers.
+        app.run_polling() installs SIGINT/SIGTERM handlers which only
+        work in the main thread — this breaks on Railway and other hosts.
+        We manually manage the lifecycle instead.
+        """
+        import asyncio
+
+        async def _polling():
+            app = await _build_app()
+            notifications.set_app(app)
+
+            await app.initialize()
+            await app.start()
+            await app.updater.start_polling(
+                allowed_updates=Update.ALL_TYPES,
+                drop_pending_updates=False,
+            )
+            log.info("Telegram polling started (no signal handlers)")
+
+            # Keep the loop alive until the thread is killed
+            while True:
+                await asyncio.sleep(1)
+
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            loop.run_until_complete(_polling())
+        except Exception as e:
+            log.error("Telegram polling error: %s", e)
+        finally:
+            try:
+                loop.close()
+            except Exception:
+                pass
     t = threading.Thread(target=_run, name="TelegramBot", daemon=True)
     t.start()
     return t
