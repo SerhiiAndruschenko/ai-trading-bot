@@ -82,10 +82,16 @@ def open_position(
     if not order:
         return False
 
-    # Виконана ціна
-    entry_price = float(order.get("avgPrice") or order.get("price") or price)
-    if entry_price == 0:
-        entry_price = price
+    # Виконана ціна. avgPrice="0" — типово для Binance Futures.
+    entry_price = price  # safe fallback
+    avg = float(order.get("avgPrice") or 0)
+    if avg > 0:
+        entry_price = avg
+    else:
+        cum_quote = float(order.get("cummulativeQuoteQty") or 0)
+        exec_qty  = float(order.get("executedQty") or 0)
+        if cum_quote > 0 and exec_qty > 0:
+            entry_price = cum_quote / exec_qty
 
     # TP / SL рівні
     if action == "LONG":
@@ -133,7 +139,22 @@ def close_position(symbol: str, reason: str = "") -> bool:
     qty   = trade["qty"]
 
     order = bc.place_market_order(symbol, side, qty)
-    exit_price = float(order.get("avgPrice") or order.get("price") or price) if order else price
+
+    # Get actual fill price. Binance Futures market orders often return avgPrice="0"
+    # immediately after placement. Priority:
+    #   1. avgPrice (if non-zero)
+    #   2. cummulativeQuoteQty / executedQty
+    #   3. current market price (already fetched above)
+    exit_price = price  # safe fallback
+    if order:
+        avg = float(order.get("avgPrice") or 0)
+        if avg > 0:
+            exit_price = avg
+        else:
+            cum_quote = float(order.get("cummulativeQuoteQty") or 0)
+            exec_qty  = float(order.get("executedQty") or 0)
+            if cum_quote > 0 and exec_qty > 0:
+                exit_price = cum_quote / exec_qty
 
     # P&L з урахуванням комісії
     if trade["side"] == "LONG":
