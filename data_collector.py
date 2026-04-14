@@ -35,7 +35,13 @@ def _price_changes(df: pd.DataFrame, current_price: float) -> dict:
         past = float(closes[idx])
         return (current_price - past) / past * 100 if past else 0.0
 
+    # change_15m: поточна ціна vs ціна 1 свічку назад (1 × 15хв = 15 хв)
+    last_close  = float(closes[-1]) if n >= 1 else 0.0
+    prev_close  = float(closes[-2]) if n >= 2 else last_close
+    change_15m  = (current_price - prev_close) / prev_close * 100 if prev_close else 0.0
+
     return {
+        "change_15m": change_15m,
         "change_1h":  pct(4),
         "change_4h":  pct(16),
         "change_24h": pct(min(96, n - 1)),
@@ -136,6 +142,7 @@ def collect_market_data(symbol: str) -> dict:
         "volume":         volume,
         "avg_volume":     avg_volume,
         "vol_ratio":      vol_ratio,
+        "change_15m":     changes["change_15m"],
         "change_1h":      changes["change_1h"],
         "change_4h":      changes["change_4h"],
         "change_24h":     changes["change_24h"],
@@ -146,8 +153,8 @@ def collect_market_data(symbol: str) -> dict:
 
     log.debug(
         "[%s] Data collected: price=%.4f EMA21=%.4f EMA50=%.4f RSI=%.1f "
-        "vol_ratio=%.2fx funding=%.4f%%",
+        "vol_ratio=%.2fx funding=%.4f%% 15m=%+.2f%%",
         symbol, price, indic["ema21"], indic["ema50"], indic["rsi"],
-        vol_ratio, funding_rate,
+        vol_ratio, funding_rate, changes["change_15m"],
     )
     return data

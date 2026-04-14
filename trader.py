@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import math
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import Any
 
 import config
@@ -21,6 +21,9 @@ TAKER_FEE = 0.0005
 #             "tp_pct", "sl_pct", "opened_at", "confidence", "reason" } }
 _open_trades: dict[str, dict[str, Any]] = {}
 
+# Cooldown після закриття: symbol -> час до якого вхід заборонено
+_cooldown_until: dict[str, datetime] = {}
+
 
 # ── Допоміжні ────────────────────────────────────────────────────────────────
 
@@ -32,6 +35,16 @@ def _calc_quantity(symbol: str, price: float, balance: float) -> float:
     qty        = notional / price
     qty        = bc.round_step(qty, filters["stepSize"])
     return max(qty, float(filters["minQty"]))
+
+
+def is_in_cooldown(symbol: str) -> bool:
+    """Повертає True, якщо символ ще в паузі після закриття угоди."""
+    until = _cooldown_until.get(symbol)
+    if until and datetime.now(timezone.utc) < until:
+        remaining = int((until - datetime.now(timezone.utc)).total_seconds())
+        log.info("[%s] Cooldown ще %d сек — пропускаємо", symbol, remaining)
+        return True
+    return False
 
 
 def _duration_str(opened_at: datetime) -> str:
@@ -60,6 +73,9 @@ def open_position(
     """
     if symbol in _open_trades:
         log.info(f"[{symbol}] Позиція вже відкрита — пропускаємо")
+        return False
+
+    if is_in_cooldown(symbol):
         return False
 
     # Перевірка глобального ліміту відкритих угод
@@ -186,6 +202,17 @@ def close_position(symbol: str, reason: str = "") -> bool:
     _notify_close(symbol, trade, exit_price, pnl, pnl_pct, duration, reason)
 
     del _open_trades[symbol]
+
+    # Встановлюємо cooldown — не входимо знову одразу після TP/SL
+    _cooldown_until[symbol] = (
+        datetime.now(timezone.utc) + timedelta(seconds=config.SYMBOL_COOLDOWN_SEC)
+    )
+    log.info(
+        "[%s] Cooldown до %s",
+        symbol,
+        _cooldown_until[symbol].strftime("%H:%M:%S UTC"),
+    )
+
     return True
 
 

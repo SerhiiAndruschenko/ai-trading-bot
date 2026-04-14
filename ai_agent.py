@@ -64,8 +64,12 @@ _PROMPT_TPL = (
     "ATR={atr:.4f}\n"
     "Volume: current={volume:.0f} | avg={avg_volume:.0f} | ratio={vol_ratio:.2f}x\n\n"
     "Price dynamics:\n"
-    "1h: {change_1h:+.2f}% | 4h: {change_4h:+.2f}% | 24h: {change_24h:+.2f}%\n"
+    "15m: {change_15m:+.2f}% | 1h: {change_1h:+.2f}% | 4h: {change_4h:+.2f}% | 24h: {change_24h:+.2f}%\n"
     "Funding rate: {funding_rate:.4f}%\n\n"
+    "Rule: if the price has already moved more than 1% in the last hour in the direction\n"
+    "of the potential trade (e.g. +1% for LONG or -1% for SHORT), confidence MUST be\n"
+    "below 0.60 — reply WAIT. Do not enter after a strong impulse; wait for a\n"
+    "correction or consolidation.\n\n"
     "Last 5 candles:\n"
     "{last_5_candles}\n\n"
     "Return JSON only (no markdown):\n"
@@ -175,6 +179,7 @@ def analyze(symbol, market_data, balance):
         volume=d.get("volume", 0),
         avg_volume=d.get("avg_volume", 0),
         vol_ratio=d.get("vol_ratio", 1.0),
+        change_15m=d.get("change_15m", 0),
         change_1h=d.get("change_1h", 0),
         change_4h=d.get("change_4h", 0),
         change_24h=d.get("change_24h", 0),
